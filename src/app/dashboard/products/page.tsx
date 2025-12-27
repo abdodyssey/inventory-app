@@ -3,7 +3,7 @@ import { Product } from "@/app/types/Product";
 import Link from "next/link";
 import SubmitButton from "@/app/components/SubmitButton";
 import { db } from "@/db/client";
-import { addProduct, deleteProduct } from "./actions";
+import { addProduct } from "./actions";
 import DeleteProductButton from "@/app/components/deleteProductButton";
 import { auth } from "@/auth";
 
@@ -13,6 +13,13 @@ export default async function ProductsPage() {
   //   const products: Product[] = data.products;
 
   const session = await auth();
+  if (!session)
+    return (
+      <div>
+        <p>Silakan login untuk melihat produk.</p>
+      </div>
+    );
+
   const products = await db.product.findMany({
     orderBy: { createdAt: "desc" },
     where: { userId: session?.user?.id },
