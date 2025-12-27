@@ -20,7 +20,7 @@ export default async function ProductsPage() {
       </div>
     );
 
-  const products = await db.product.findMany({
+  const products: Product[] = await db.product.findMany({
     orderBy: { createdAt: "desc" },
     where: { userId: session?.user?.id },
   });
@@ -45,23 +45,34 @@ export default async function ProductsPage() {
         <SubmitButton />
       </form>
 
-      <div className="grid gap-4">
-        {products.map((item: Product) => (
-          <div
-            key={item.id}
-            className="flex  justify-between items-center  p-4 hover:translate-x-[-2px] hover:bg-neutral-900 hover:cursor-pointer hover:translate-y-[-2px] border border-neutral-800 rounded-lg shadow-sm hover:shadow-md transition "
-          >
-            <Link href={`products/${item.id}`}>
-              <h2 className="font-semibold text-lg">{item.name}</h2>
-              <p className="text-neutral-600 text-sm">{item.price}</p>
-            </Link>
-            <div className="flex gap-3">
-              <AddToCartButton productName={item.name} />
-              <DeleteProductButton id={item.id} />
+      {products.length === 0 ? (
+        <div className="flex flex-col items-center justify-center p-10 border-2 border-dashed border-neutral-300 rounded-xl bg-neutral-50">
+          <p className="text-neutral-500 mb-2">
+            Belum ada barang di inventory kamu.
+          </p>
+          <p className="text-sm text-neutral-400">
+            Gunakan form di atas untuk menambah barang pertama!
+          </p>
+        </div>
+      ) : (
+        <div className="grid gap-4">
+          {products.map((item: Product) => (
+            <div
+              key={item.id}
+              className="flex  justify-between items-center  p-4 hover:translate-x-[-2px] hover:bg-neutral-900 hover:cursor-pointer hover:translate-y-[-2px] border border-neutral-800 rounded-lg shadow-sm hover:shadow-md transition "
+            >
+              <Link href={`products/${item.id}`}>
+                <h2 className="font-semibold text-lg">{item.name}</h2>
+                <p className="text-neutral-600 text-sm">{item.price}</p>
+              </Link>
+              <div className="flex gap-3">
+                <AddToCartButton productName={item.name} />
+                <DeleteProductButton id={item.id} />
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
