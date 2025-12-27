@@ -35,9 +35,7 @@ export async function deleteProduct(id: number) {
     where: { id, userId: session?.user?.id },
   });
 
-  if (!product)
-    throw new Error("Barang tidak ditemukan atau kamu tidak punya akses");
-
+ 
   await db.product.delete({
     where: { id },
   });
