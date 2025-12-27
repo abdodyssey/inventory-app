@@ -5,7 +5,7 @@ import Link from "next/link";
 
 // Type data untuk halaman dynamic
 interface PageProp {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function ProductDetailPage({ params }: PageProp) {

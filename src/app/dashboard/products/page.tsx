@@ -61,7 +61,7 @@ export default async function ProductsPage() {
               key={item.id}
               className="flex  justify-between items-center  p-4 hover:translate-x-[-2px] hover:bg-neutral-900 hover:cursor-pointer hover:translate-y-[-2px] border border-neutral-800 rounded-lg shadow-sm hover:shadow-md transition "
             >
-              <Link href={`products/${item.id}`}>
+              <Link href={`/dashboard/products/${item.id}`}>
                 <h2 className="font-semibold text-lg">{item.name}</h2>
                 <p className="text-neutral-600 text-sm">{item.price}</p>
               </Link>
